@@ -27,6 +27,17 @@ After which you can proceed to compile and run the code
 
 For more information how to install NS-3 and ndnSIM, please refer to http://ndnsim.net website.
 
+CS50 Appliance
+=============
+
+Ignore the rest of this guide for installation. Now do
+
+    sudo apt-get install libboost-all-dev
+
+    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig sudo ./waf configure --boost-libs /usr/lib/i386-linux-gnu/
+    
+This works for the CS50 appliance 2014. Fuck yeah.
+
 Compiling
 =========
 
@@ -56,6 +67,7 @@ or
 or
 
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./waf configure --debug
+
 
 Running
 =======
@@ -192,3 +204,4 @@ Additional graphs (Figure 9 from the paper) can be build using:
     install.packages ('proto')
     install.packages ('ggplot2', dep=TRUE)
     install.packages ('doBy', dep=TRUE)
+
