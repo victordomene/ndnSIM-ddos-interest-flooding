@@ -28,7 +28,7 @@ filename = paste(sep="", "results/",folder,"/process/", name, "-all-data.dat")
 if (file_test("-f", filename)) {
   cat ("Loading data from", filename, "\n")
   load (filename)
-  
+
 } else {
    data.all = data.frame ()
    for (evil in strsplit(evils,",")[[1]]) {
@@ -38,14 +38,14 @@ if (file_test("-f", filename)) {
        cat ("Reading from", filename, "\n")
        ## data = read.table (filename, header=TRUE)
        load (filename)
-       
+
        data.all <- rbind (data.all, data)
      }
    }
 
    name = paste (sep="-", prefixes, "topo", topo, "evil", evils, "producer", producer)
    filename = paste(sep="", "results/",folder,"/process/", name, "-all-data.dat")
-   
+
    cat ("Saving data to", filename, "\n")
    save (data.all, file=filename)
 }
@@ -55,11 +55,12 @@ data.all$Evil = factor(data.all$Evil)
 name2 = paste (sep="-", topo, "good", good, "producer", producer)
 
 data.all$Scenario = ordered (data.all$Scenario,
-  c("fairness", "satisfaction-accept", "satisfaction-pushback"))
+  c("fairness", "satisfaction-accept", "satisfaction-pushback", "flooding"))
 
 levels(data.all$Scenario) <- sub("^satisfaction-pushback$", "Satisfaction-based pushback", levels(data.all$Scenario))
 levels(data.all$Scenario) <- sub("^satisfaction-accept$",   "Satisfaction-based Interest acceptance", levels(data.all$Scenario))
 levels(data.all$Scenario) <- sub("^fairness$",              "Token bucket with per interface fairness", levels(data.all$Scenario))
+levels(data.all$Scenario) <- sub("^flooding$",              "Flooding interests", levels(data.all$Scenario))
 
 cat (sep="", "Writing to ", paste(sep="","graphs/pdfs/", folder, "/",name2,".pdf"))
 pdf (paste(sep="","graphs/pdfs/", folder, "/",name2,".pdf"), width=5, height=4)
@@ -81,7 +82,7 @@ g <- ggplot (gdata) +
                },
                data = gdata[sample(nrow(gdata), length(gdata$Time)/20),],
                size=0.1, width=1, alpha=0.5) +
-  
+
   theme_custom () +
   xlab ("Time since attack started, seconds") +
   ylab ("Min/max satisfaction ratios") +
@@ -94,7 +95,7 @@ g <- ggplot (gdata) +
   theme (legend.key.size = unit(0.8, "lines"),
          legend.position="none", #c(1.0, 0.0),
          legend.justification=c(1,0),
-         legend.background = element_rect (fill="white", colour="black", size=0.1))  
+         legend.background = element_rect (fill="white", colour="black", size=0.1))
 
 print (g)
 
