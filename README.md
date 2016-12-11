@@ -36,7 +36,9 @@ Ignore the rest of this guide for installation. Now do
 
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig sudo ./waf configure --boost-libs /usr/lib/i386-linux-gnu/
     
-This works for the CS50 appliance 2014. Fuck yeah.
+This works for the CS50 appliance 2014. Fuck yeah. Also, install R by following
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-r-on-ubuntu-14-04
 
 Compiling
 =========
