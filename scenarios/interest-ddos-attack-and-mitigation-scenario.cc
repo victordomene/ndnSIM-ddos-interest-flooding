@@ -63,13 +63,13 @@ int main(int argc, char **argv) {
     StackHelper helper;
 
     AppHelper evilAppHelper("DdosApp");
-    //evilAppHelper.SetAttribute("Evil", BooleanValue(true));
-    //evilAppHelper.SetAttribute("LifeTime", StringValue("1s"));
-    //evilAppHelper.SetAttribute("DataBasedLimits", BooleanValue(true));
+    evilAppHelper.SetAttribute("Evil", BooleanValue(true));
+    evilAppHelper.SetAttribute("LifeTime", StringValue("1s"));
+    evilAppHelper.SetAttribute("DataBasedLimits", BooleanValue(true));
 
     AppHelper goodAppHelper("DdosApp");
-    //goodAppHelper.SetAttribute("LifeTime", StringValue("1s"));
-    //goodAppHelper.SetAttribute("DataBasedLimits", BooleanValue(true));
+    goodAppHelper.SetAttribute("LifeTime", StringValue("1s"));
+    goodAppHelper.SetAttribute("DataBasedLimits", BooleanValue(true));
 
     AppHelper ph("ns3::ndn::Producer");
     ph.SetPrefix("/good");
@@ -293,8 +293,8 @@ int main(int argc, char **argv) {
          node != goodNodes.End(); node++) {
         ApplicationContainer goodApp;
         goodAppHelper.SetPrefix("/good/" + Names::FindName(*node));
-        //goodAppHelper.SetAttribute(
-            //"AvgGap", TimeValue(Seconds(1.100 / maxNonCongestionShare)));
+        goodAppHelper.SetAttribute(
+            "AvgGap", TimeValue(Seconds(1.100 / maxNonCongestionShare)));
 
         goodApp.Add(goodAppHelper.Install(*node));
 
