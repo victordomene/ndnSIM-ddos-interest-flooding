@@ -63,13 +63,13 @@ int main(int argc, char **argv) {
     StackHelper helper;
 
     AppHelper evilAppHelper("DdosApp");
-    //evilAppHelper.SetAttribute("Evil", BooleanValue(true));
-    //evilAppHelper.SetAttribute("LifeTime", StringValue("1s"));
-    //evilAppHelper.SetAttribute("DataBasedLimits", BooleanValue(true));
+    evilAppHelper.SetAttribute("Evil", BooleanValue(true));
+    evilAppHelper.SetAttribute("LifeTime", StringValue("1s"));
+    evilAppHelper.SetAttribute("DataBasedLimits", BooleanValue(true));
 
     AppHelper goodAppHelper("DdosApp");
-    //goodAppHelper.SetAttribute("LifeTime", StringValue("1s"));
-    //goodAppHelper.SetAttribute("DataBasedLimits", BooleanValue(true));
+    goodAppHelper.SetAttribute("LifeTime", StringValue("1s"));
+    goodAppHelper.SetAttribute("DataBasedLimits", BooleanValue(true));
 
     AppHelper ph("ns3::ndn::Producer");
     ph.SetPrefix("/good");
@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
             "ns3::ndn::fw::BestRoute::Stats::SatisfactionBasedPushback::"
             "TokenBucketWithPerInterfaceFairness",
             "GraceThreshold", "0.01");
-    } else if (prefix == "bestroute") {
+    } else if (prefix == "flooding") {
         helper.SetForwardingStrategy("ns3::ndn::fw::BestRoute");
     } else {
         cerr << "Invalid scenario prefix" << endl;
@@ -242,10 +242,6 @@ int main(int argc, char **argv) {
     };
     os << endl;
 
-    std::cout << "EVILS: " << evils.size() << std::endl;
-    std::cout << "GOOD: " << angels.size() << std::endl;
-    std::cout << "PRODUCERS: " << producers.size() << std::endl;
-
     // a little bit of C++11 flavor, compile with -std=c++11 flag
     os << "Evil: ";
     std::for_each(evils.begin(), evils.end(), assignNodes(evilNodes, "Evil"));
@@ -293,8 +289,8 @@ int main(int argc, char **argv) {
          node != goodNodes.End(); node++) {
         ApplicationContainer goodApp;
         goodAppHelper.SetPrefix("/good/" + Names::FindName(*node));
-        //goodAppHelper.SetAttribute(
-            //"AvgGap", TimeValue(Seconds(1.100 / maxNonCongestionShare)));
+        goodAppHelper.SetAttribute(
+            "AvgGap", TimeValue(Seconds(1.100 / maxNonCongestionShare)));
 
         goodApp.Add(goodAppHelper.Install(*node));
 

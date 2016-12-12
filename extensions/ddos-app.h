@@ -28,51 +28,47 @@
 using namespace ns3;
 using namespace ndn;
 
-class DdosApp : public App
-{
-public:
-  static TypeId GetTypeId ();
+class DdosApp : public App {
+   public:
+    static TypeId GetTypeId();
 
-  DdosApp ();
-  virtual ~DdosApp ();
+    DdosApp();
+    virtual ~DdosApp();
 
-  virtual void
-  OnNack (const Ptr<const Interest> &interest);
+    virtual void OnNack(Ptr<const Interest> interest) override;
 
-  virtual void
-  OnData (const Ptr<const Data> &contentObject);
+    virtual void OnInterest(Ptr<const Interest> interest) override;
 
-  /**
-   * @brief Actually send packet
-   */
-  void
-  SendPacket ();
-  
-protected:
-  // from App
-  virtual void
-  StartApplication ();
+    virtual void OnData(Ptr<const Data> contentObject) override;
 
-  virtual void
-  StopApplication ();
+    /**
+     * @brief Actually send packet
+     */
+    void SendPacket();
 
+   protected:
+    // from App
+    virtual void StartApplication();
 
-  void
-  DelayedStop ();
-  
-private:
-  UniformVariable m_rand; ///< @brief nonce generator
-  UniformVariable m_jitter; ///< @brief nonce generator
-  uint32_t        m_seq;  ///< @brief currently requested sequence number
-  EventId         m_nextSendEvent;
-  Time            m_lifetime;
+    virtual void StopApplication();
 
-  Time m_avgGap; ///< @brief average gap between interests (should be short, but still should be, otherwise simulation will never finishes)
-  // default interest
-  // InterestHeader m_defaultInterest;
-  Name m_prefix;
-  bool m_evilBit;
-  bool m_dataBasedLimit;
+    void DelayedStop();
+
+   private:
+    UniformVariable m_rand;    ///< @brief nonce generator
+    UniformVariable m_jitter;  ///< @brief nonce generator
+    uint32_t m_seq;            ///< @brief currently requested sequence number
+    EventId m_nextSendEvent;
+    Time m_lifetime;
+
+    Time m_avgGap;  ///< @brief average gap between interests (should be short,
+                    ///but still should be, otherwise simulation will never
+                    ///finishes)
+    // default interest
+    // InterestHeader m_defaultInterest;
+    Name m_prefix;
+    bool m_evilBit;
+    bool m_dataBasedLimit;
 };
 
 #endif

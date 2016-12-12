@@ -55,12 +55,12 @@ data.all$Evil = factor(data.all$Evil)
 name2 = paste (sep="-", topo, "good", good, "producer", producer)
 
 data.all$Scenario = ordered (data.all$Scenario,
-  c("fairness", "satisfaction-accept", "satisfaction-pushback", "flooding"))
+  c("bestroute", "fairness", "satisfaction-accept", "satisfaction-pushback"))
 
 levels(data.all$Scenario) <- sub("^satisfaction-pushback$", "Satisfaction-based pushback", levels(data.all$Scenario))
 levels(data.all$Scenario) <- sub("^satisfaction-accept$",   "Satisfaction-based Interest acceptance", levels(data.all$Scenario))
 levels(data.all$Scenario) <- sub("^fairness$",              "Token bucket with per interface fairness", levels(data.all$Scenario))
-levels(data.all$Scenario) <- sub("^flooding$",              "Flooding interests", levels(data.all$Scenario))
+levels(data.all$Scenario) <- sub("^bestroute$",              "Best route", levels(data.all$Scenario))
 
 cat (sep="", "Writing to ", paste(sep="","graphs/pdfs/", folder, "/",name2,".pdf"))
 pdf (paste(sep="","graphs/pdfs/", folder, "/",name2,".pdf"), width=5, height=4)
