@@ -288,7 +288,7 @@ try:
     # conversion.run ()
 
     smallTree = InterestDdosAttack (name="attack-small-tree",
-                                    algorithms = ["flooding", "fairness"],
+                                    algorithms = ["fairness"],
                                     topologies = ["small-tree"],
                                     evils = [3],
                                     good  = 1, # number of client nodes minus number of evil nodes
@@ -298,35 +298,36 @@ try:
                                     defaultRtt = "80ms")
     smallTree.run ()
 
-    tree = InterestDdosAttack (name="attack-tree",
-                               algorithms = ["fairness", "satisfaction-accept", "satisfaction-pushback"],
-                               topologies = ["tree"],
-                               evils = range(1,10,2),
-                               good  = 0, # number of client nodes minus number of evil nodes
-                               runs = range(1,11),
-                               folder = "attackTree",
-                               producer = "gw",
-                               defaultRtt = "80ms")
-    tree.run ()
+    if False:
+	    tree = InterestDdosAttack (name="attack-tree",
+				       algorithms = ["fairness", "satisfaction-accept", "satisfaction-pushback"],
+				       topologies = ["tree"],
+				       evils = range(1,10,2),
+				       good  = 0, # number of client nodes minus number of evil nodes
+				       runs = range(1,11),
+				       folder = "attackTree",
+				       producer = "gw",
+				       defaultRtt = "80ms")
+	    tree.run ()
 
-    isp = InterestDdosAttack (name="attack-isp",
-                              algorithms = ["fairness", "satisfaction-accept", "satisfaction-pushback"],
-                              topologies = ["7018.r0"],
-                              evils = [140],
-                              good  = 0, # number of client nodes minus number of evil nodes
-                              runs = range(1,11),
-                              folder = "attackISP",
-                              producer = "gw",
-                              defaultRtt = "330ms")
-    isp.run ()
+	    isp = InterestDdosAttack (name="attack-isp",
+				      algorithms = ["fairness", "satisfaction-accept", "satisfaction-pushback"],
+				      topologies = ["7018.r0"],
+				      evils = [140],
+				      good  = 0, # number of client nodes minus number of evil nodes
+				      runs = range(1,11),
+				      folder = "attackISP",
+				      producer = "gw",
+				      defaultRtt = "330ms")
+	    isp.run ()
 
-    SatisfactionMinManFigures (name="figureX", scenario=smallTree).run ()
-    SatisfactionMinManFigures (name="figure6", scenario=tree).run ()
-    SatisfactionMinManFigures (name="figure9", scenario=isp).run ()
+	    SatisfactionMinManFigures (name="figureX", scenario=smallTree).run ()
+	    SatisfactionMinManFigures (name="figure6", scenario=tree).run ()
+	    SatisfactionMinManFigures (name="figure9", scenario=isp).run ()
 
-    SatisfactionNumberOfAttackersFigures (name="figureXX", scenario=smallTree).run ()
-    SatisfactionNumberOfAttackersFigures (name="figure7",  scenario=tree).run ()
-    # SatisfactionNumberOfAttackersFigures (name="figureYY", scenario=isp).run ()
+	    SatisfactionNumberOfAttackersFigures (name="figureXX", scenario=smallTree).run ()
+	    SatisfactionNumberOfAttackersFigures (name="figure7",  scenario=tree).run ()
+	    # SatisfactionNumberOfAttackersFigures (name="figureYY", scenario=isp).run ()
 
 finally:
     pool.join ()

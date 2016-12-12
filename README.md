@@ -27,10 +27,10 @@ After which you can proceed to compile and run the code
 
 For more information how to install NS-3 and ndnSIM, please refer to http://ndnsim.net website.
 
-CS50 Appliance
+Gabe's notes
 =============
 
-Ignore the rest of this guide for installation. Now do
+Ignore the rest of this guide for installation. For simplicity, become root via sudo su and never go back. Now do
 
     sudo apt-get install libboost-all-dev
 
@@ -39,6 +39,15 @@ Ignore the rest of this guide for installation. Now do
 This works for the CS50 appliance 2014. Fuck yeah. Also, install R by following
 
 https://www.digitalocean.com/community/tutorials/how-to-set-up-r-on-ubuntu-14-04
+
+And then go to the end of the guide and install all of the packages it mentions.
+
+Also don't forget
+
+	sudo apt-get install twopi
+
+Because the code says it uses it although the readme never mentions it.
+
 
 Compiling
 =========
