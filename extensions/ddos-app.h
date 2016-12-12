@@ -69,6 +69,7 @@ class DdosApp : public App {
     Name m_prefix;
     bool m_evilBit;
     bool m_dataBasedLimit;
+    bool shouldSend;
 };
 
 #endif

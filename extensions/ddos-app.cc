@@ -21,6 +21,10 @@
 #include "ddos-app.h"
 #include <ns3/point-to-point-module.h>
 
+#include <boost/lexical_cast.hpp>
+
+using namespace std;
+
 NS_LOG_COMPONENT_DEFINE("DdosApp");
 
 NS_OBJECT_ENSURE_REGISTERED(DdosApp);
@@ -68,29 +72,49 @@ void DdosApp::OnNack(Ptr<const Interest> interest) {
 
 void DdosApp::OnData(Ptr<const Data> contentObject) {
     // who cares
-    std::cout << "Data received: " << contentObject->GetName() << std::endl;
+    //std::cout << "Data received: " << contentObject->GetName() << std::endl;
 }
 
 void DdosApp::OnInterest(Ptr<const Interest> interest) {
-    std::cout << "Interest received: " << interest->GetName() << std::endl;
+    double limit = boost::lexical_cast<double>(interest->GetName().get(-1));
+    if (m_evilBit) {
+	cout << "I'm evil!";
+	std::cout << "Interest received. My limit is: " << limit << std::endl;
+    }
+
+    if (limit < 1)
+	shouldSend = false;
+    else
+	shouldSend = true;
 }
 
 void DdosApp::SendPacket() {
-    m_seq++;
-    // send packet
-    Ptr<NameComponents> nameWithSequence = Create<NameComponents>(m_prefix);
-    nameWithSequence->appendSeqNum(m_seq);
+    if (shouldSend) {
+	    m_seq++;
+	    // send packet
+	    Ptr<NameComponents> nameWithSequence = Create<NameComponents>(m_prefix);
 
-    Ptr<Interest> interest = Create<Interest>();
-    interest->SetNonce(m_rand.GetValue());
-    interest->SetName(nameWithSequence);
-    interest->SetInterestLifetime(m_lifetime);
+	    // Goods get it wrong sometimes
+	    if (m_seq % 10 == 0 && !m_evilBit) {
+		nameWithSequence = Create<NameComponents>("/evil");
+	    }
 
-    NS_LOG_INFO("> Interest for " << m_seq << ", lifetime "
-                                  << m_lifetime.ToDouble(Time::S) << "s");
+	    if (m_seq % 2 == 0 && m_evilBit)
+		nameWithSequence = Create<NameComponents>("/good");
+		
+	    nameWithSequence->appendSeqNum(m_seq);
 
-    m_face->ReceiveInterest(interest);
-    m_transmittedInterests(interest, this, m_face);
+	    Ptr<Interest> interest = Create<Interest>();
+	    interest->SetNonce(m_rand.GetValue());
+	    interest->SetName(nameWithSequence);
+	    interest->SetInterestLifetime(m_lifetime);
+
+	    NS_LOG_INFO("> Interest for " << m_seq << ", lifetime "
+					  << m_lifetime.ToDouble(Time::S) << "s");
+
+	    m_face->ReceiveInterest(interest);
+	    m_transmittedInterests(interest, this, m_face);
+    }
 
     // std::cout << "Size: " << packet->GetSize () << std::endl;
 
@@ -104,6 +128,7 @@ void DdosApp::StartApplication() {
     // calculate outgoing rate and set Interest generation rate accordingly
 
     double sumOutRate = 0.0;
+    shouldSend = true;
 
     Ptr<Node> node = GetNode();
     for (uint32_t deviceId = 0; deviceId < node->GetNDevices(); deviceId++) {
