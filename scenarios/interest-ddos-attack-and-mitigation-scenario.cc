@@ -310,9 +310,9 @@ int main(int argc, char **argv) {
         evilApp.Add(evilAppHelper.Install(*node));
 
         UniformVariable rand(0, 1);
-        evilApp.Start(Seconds(75.0) +
+        evilApp.Start(Seconds(30.0) +
                       Time::FromDouble(rand.GetValue(), Time::MS));
-        evilApp.Stop(Seconds(225.0) +
+        evilApp.Stop(Seconds(100.0) +
                      Time::FromDouble(rand.GetValue(), Time::MS));
     }
 
@@ -322,7 +322,7 @@ int main(int argc, char **argv) {
 
     Simulator::Schedule(Seconds(10.0), PrintTime, Seconds(10.0), name);
 
-    Simulator::Stop(Seconds(300.0));
+    Simulator::Stop(Seconds(130.0));
     Simulator::Run();
     Simulator::Destroy();
 

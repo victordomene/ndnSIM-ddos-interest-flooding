@@ -288,7 +288,7 @@ try:
     # conversion.run ()
 
     smallTree = InterestDdosAttack (name="attack-small-tree",
-                                    algorithms = ["fairness"],#["satisfaction-pushback"],#"fairness", "satisfaction-accept", "satisfaction-pushback"],
+                                    algorithms = ["satisfaction-pushback"],#["satisfaction-pushback"],#"fairness", "satisfaction-accept", "satisfaction-pushback"],
                                     topologies = ["small-tree"],
                                     evils = [0],
                                     good  = 0, # number of client nodes minus number of evil nodes
@@ -299,11 +299,11 @@ try:
     smallTree.run ()
 
     tree = InterestDdosAttack (name="attack-tree",
-                               algorithms = ["fairness", "satisfaction-accept", "satisfaction-pushback"],
+                               algorithms = ["satisfaction-pushback"],
                                topologies = ["tree"],
-                               evils = range(1,10,2),
+                               evils = [10],
                                good  = 0, # number of client nodes minus number of evil nodes
-                               runs = range(1,11),
+                               runs = range(1),
                                folder = "attackTree",
                                producer = "gw",
                                defaultRtt = "80ms")
